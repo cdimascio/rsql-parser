@@ -84,17 +84,17 @@ TOKEN : {
 }
 
 TOKEN : {
-    < UNRESERVED_STR    : ( ~["\"", "'", "(", ")", ";", ",", "=", "<", ">", "!", "~", " "] )+ >
+    < UNRESERVED_STR    : ( ~["\"", "'", "(", ")", ";", "|", ",", "=", "<", ">", "!", "~", " ", ":"] )+ >
   | < SINGLE_QUOTED_STR : ( "'" ( <ESCAPED_CHAR> | ~["'", "\\"] )* "'" ) >
   | < DOUBLE_QUOTED_STR : ( "\"" ( <ESCAPED_CHAR> | ~["\"", "\\"] )* "\"" ) >
 }
 
 TOKEN : {
-    < AND        : ( ";" | " and ") >
-  | < OR         : ( "," | " or " ) >
+    < AND        : ( "," | " and ") >
+  | < OR         : ( "|" | " or " ) >
   | < LPAREN     : "(" >
   | < RPAREN     : ")" >
-  | < COMP_FIQL  : ( ( "=" (<ALPHA>)* ) | "!" ) "=" >
+  | < COMP_FIQL  : ( ":" | "!") >//( ( "=" (<ALPHA>)* ) | "!" ) "=" >
   | < COMP_ALT   : ( ">" | "<" ) ( "=" )? >
 }
 
@@ -196,12 +196,12 @@ List<String> Arguments():
     final Object value;
 }
 {
-    ( <LPAREN> value = CommaSepArguments() <RPAREN> ) { return (List) value; }
+    ( <LPAREN> value = PipeSepArguments() <RPAREN> ) { return (List) value; }
     |
     value = Argument() { return Arrays.asList((String) value); }
 }
 
-List<String> CommaSepArguments():
+List<String> PipeSepArguments():
 {
     final List<String> list = new ArrayList<String>(3);
     String arg;

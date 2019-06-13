@@ -32,7 +32,8 @@ import static cz.jirutka.rsql.parser.ast.StringUtils.isBlank;
 @Immutable
 public final class ComparisonOperator {
 
-    private static final Pattern SYMBOL_PATTERN = Pattern.compile("=[a-zA-Z]*=|[><]=?|!=");
+//    private static final Pattern SYMBOL_PATTERN = Pattern.compile("=[a-zA-Z]*=|[><]=?|!=");
+private static final Pattern SYMBOL_PATTERN = Pattern.compile(":|[><]=?|:!");
 
     private final String[] symbols;
 
